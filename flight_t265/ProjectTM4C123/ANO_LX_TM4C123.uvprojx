@@ -500,6 +500,26 @@
               <FileType>5</FileType>
               <FilePath>..\DriversBsp\Drv_UbloxGPS.h</FilePath>
             </File>
+            <File>
+              <FileName>Drv_PID.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversBsp\Drv_PID.c</FilePath>
+            </File>
+            <File>
+              <FileName>Drv_PID.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DriversBsp\Drv_PID.h</FilePath>
+            </File>
+            <File>
+              <FileName>Drv_RasPi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversBsp\Drv_RasPi.c</FilePath>
+            </File>
+            <File>
+              <FileName>Drv_RasPi.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DriversBsp\Drv_RasPi.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

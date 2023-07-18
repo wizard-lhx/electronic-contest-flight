@@ -3,6 +3,7 @@
 #include "sysconfig.h"
 
 #define UartSendLXIMU	DrvUart5SendBuf
+#define LX_Send_To_RasPi DrvUart2SendBuf
 
 void DrvUart1Init(uint32_t baudrate);
 void DrvUart1SendBuf(u8 *data, u8 len);
