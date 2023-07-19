@@ -226,8 +226,6 @@ float my_sqrt(float number)
 	return number * my_sqrt_reciprocal(number);
 }
 
-#define ONE_PI (3.14159265)
-#define TWO_PI (2.0 * 3.14159265)
 #define ANGLE_UNIT (TWO_PI / 10.0)
 
 double mx_sin(double rad)

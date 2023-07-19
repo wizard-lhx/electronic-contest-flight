@@ -9,6 +9,8 @@
 #define TAN_MAP_SIZE 256
 #define MY_PPPIII 3.14159f
 #define MY_PPPIII_HALF 1.570796f
+#define ONE_PI (3.14159265)
+#define TWO_PI (2.0 * 3.14159265)
 
 #define my_sign(x) (((x) > 1e-6f) ? 1 : (((x) < -1e-6f) ? -1 : 0))
 #define my_3_norm(x, y, z) (my_sqrt(my_pow((x)) + my_pow((y)) + my_pow((z))))

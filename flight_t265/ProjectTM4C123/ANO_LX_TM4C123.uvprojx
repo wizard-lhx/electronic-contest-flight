@@ -455,6 +455,16 @@
               <FileType>5</FileType>
               <FilePath>..\FcSrc\LX_FC_State.h</FilePath>
             </File>
+            <File>
+              <FileName>My_Fun.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FcSrc\My_Fun.c</FilePath>
+            </File>
+            <File>
+              <FileName>My_Fun.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\FcSrc\My_Fun.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -1,6 +1,8 @@
 #include "Drv_PID.h"
 
-pid_t pos_pid;
+pid_t pos_x_pid;
+pid_t pos_y_pid;
+pid_t pos_z_pid;
 pid_t angle_pid;
 
 void PID_Init(pid_t *pid, float kp, float ki, float kd, float max_out, float max_iout)
@@ -15,7 +17,7 @@ void PID_Init(pid_t *pid, float kp, float ki, float kd, float max_out, float max
 	pid->pout=pid->iout=pid->dout=pid->error=pid->last_error=0.0f;
 }
 
-void PID_Cal(pid_t *pid, float set, float ref)
+float PID_Cal(pid_t *pid, float set, float ref)
 {
 	pid->error = set - ref;
 	
@@ -42,4 +44,6 @@ void PID_Cal(pid_t *pid, float set, float ref)
 	{
 		pid->out = -pid->max_out;
 	}
+	
+	return pid->out;
 }

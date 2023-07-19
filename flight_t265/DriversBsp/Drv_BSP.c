@@ -15,6 +15,7 @@
 #include "Drv_UbloxGPS.h"
 #include "Drv_Uart.h"
 #include "Drv_Timer.h"
+#include "Drv_PID.h"
 
 u8 All_Init()
 {
@@ -47,6 +48,11 @@ u8 All_Init()
 	Init_GPS();
 	//初始化定时中断
 	DrvTimerFcInit();
+	//PID参数初始化
+	PID_Init(&pos_x_pid, 0.3f, 0.0f, 0.01f, 5.0f, 15.0f);
+	PID_Init(&pos_x_pid, 0.3f, 0.0f, 0.01f, 5.0f, 15.0f);
+	PID_Init(&pos_x_pid, 0.3f, 0.0f, 0.01f, 5.0f, 15.0f);
+	PID_Init(&angle_pid, 0.1f, 0.001f, 0.07f, 2.5f, 20.0f);
 	//初始化完成，返回1
 	return (1);
 }
