@@ -28,7 +28,7 @@ u8 All_Init()
 	DrvPwmOutInit();
 	MyDelayMs(100);
 	//串口2初始化，函数参数为波特率
-	DrvUart2Init(500000);
+	DrvUart2Init(9600);
 	//串口3初始化
 	DrvUart3Init(500000);
 	//接匿名光流

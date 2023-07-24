@@ -5,6 +5,7 @@
 #include "Drv_led.h"
 #include "LX_FC_State.h"
 #include "Drv_Uart.h"
+#include "Drv_RasPi.h"
 
 /*==========================================================================
  * 描述    ：凌霄飞控通信主程序
@@ -64,6 +65,10 @@ void ANO_DT_Init(void)
 	dt.fun[0xe2].D_Addr = 0xff;
 	dt.fun[0xe2].fre_ms = 0;	  //0 由外部触发
 	dt.fun[0xe2].time_cnt_ms = 0; //设置初始相位，单位1ms
+	
+	dt.fun[0xf1].D_Addr = 0xff;   //用户自定义帧
+	dt.fun[0xf1].fre_ms = 0;
+	dt.fun[0xf1].time_cnt_ms = 0;
 }
 
 //数据发送接口
@@ -382,6 +387,25 @@ static void Add_Send_Data(u8 frame_num, u8 *_cnt, u8 send_buffer[])
 		send_buffer[(*_cnt)++] = BYTE3(temp_data_32);
 	}
 	break;
+	case 0xf1:   //用户自定义帧
+	{
+		//T265 的水平位置坐标
+		send_buffer[(*_cnt)++] = BYTE0(raspi.x);
+		send_buffer[(*_cnt)++] = BYTE1(raspi.x);
+		send_buffer[(*_cnt)++] = BYTE0(raspi.y);
+		send_buffer[(*_cnt)++] = BYTE1(raspi.y);
+		send_buffer[(*_cnt)++] = BYTE0(raspi.angle);
+		send_buffer[(*_cnt)++] = BYTE1(raspi.angle);
+		for(u8 i = 0; i < 4; i++)   //T265 的水平速度
+		{
+			send_buffer[(*_cnt)++] = ext_sens.gen_vel.byte[i];
+		}
+		for(u8 i = 6; i < 14; i++)  //实时控制帧的角速度，xyz轴速度
+		{
+			send_buffer[(*_cnt)++] = rt_tar.byte_data[i];
+		}
+	}
+	break;
 	default:
 		break;
 	}
@@ -519,6 +543,7 @@ void ANO_LX_Data_Exchange_Task(float dT_s)
 	Check_To_Send(0xe0);
 	Check_To_Send(0xe2);
 	Check_To_Send(0x0d);
+	Check_To_Send(0xf1);	
 }
 
 //===================================================================

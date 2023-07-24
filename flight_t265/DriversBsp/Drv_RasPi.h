@@ -8,6 +8,8 @@
 
 typedef struct
 {
+	u8 t265_update_cnt;
+	
 	s16 x;
 	s16 y;
 	s16 z;
@@ -16,7 +18,7 @@ typedef struct
 	s16 dy;
 	s16 dz;
 	
-	float angle;
+	s16 angle;
 } _raspi_st;
 
 //==数据声明
