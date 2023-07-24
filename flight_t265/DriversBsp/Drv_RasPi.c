@@ -82,6 +82,7 @@ static void RasPi_DataAnl(uint8_t *data, uint8_t len)
 		raspi.dz = *((s16 *)(data + 13));
 		
 		raspi.angle = *((s16 *)(data + 15));
+		raspi.t265_status = *(data + 17);
 		raspi.t265_update_cnt += 1;
 	}
 }

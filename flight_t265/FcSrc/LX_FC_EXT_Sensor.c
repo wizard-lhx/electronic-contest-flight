@@ -25,7 +25,7 @@ _fc_ext_sensor_st ext_sens;
 //这里把T265数据打包成通用速度传感器数据
 static inline void General_Velocity_Data_Handle()
 {
-	static u8 t265_update_cnt, of_alt_update_cnt;
+	static u8 t265_update_cnt, of_alt_update_cnt, of_update_cnt;
 	static u8 dT_ms = 0;
 	//每一毫秒dT_ms+1，用来判断是否长时间无数据
 	if (dT_ms != 255)
@@ -51,8 +51,32 @@ static inline void General_Velocity_Data_Handle()
 	if(t265_update_cnt != raspi.t265_update_cnt)
 	{
 		t265_update_cnt = raspi.t265_update_cnt;
-		ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = raspi.dx;
-		ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = raspi.dy;
+		if(raspi.t265_status == 1) // t265 有效
+		{
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = raspi.dx;
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = raspi.dy;
+		}
+		else
+		{
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = 0x8000;
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = 0x8000;
+		}
+	}
+	//如果 t265 失效，检查OF数据是否更新
+	else if (of_update_cnt != ano_of.of_update_cnt && raspi.t265_status == 0)
+	{
+		of_update_cnt = ano_of.of_update_cnt;
+		//XY_VEL
+		if (ano_of.of1_sta && ano_of.work_sta) //光流有效
+		{
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = ano_of.of1_dx;
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = ano_of.of1_dy;
+		}
+		else //无效
+		{
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = 0x8000;
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = 0x8000;
+		}
 	}
 	if (of_alt_update_cnt != ano_of.alt_update_cnt)
 	{

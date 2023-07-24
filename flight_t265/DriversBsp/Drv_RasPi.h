@@ -10,6 +10,8 @@ typedef struct
 {
 	u8 t265_update_cnt;
 	
+	u8 t265_status;
+	
 	s16 x;
 	s16 y;
 	s16 z;
