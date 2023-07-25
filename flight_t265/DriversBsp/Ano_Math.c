@@ -379,10 +379,10 @@ float fifo(u8 arr_num, u8 *cnt, float *arr, float in)
 |  | =  |          |   |  |
 |y2|    |sinx, cosx|   |y2|
 */
-void rot_vec_2(float in[2], float sinx, float out[2]) //x = +-90度旋转，取sin x
+void rot_vec_2(float in[2], float sinx, float cosx, float out[2]) //x = +-90度旋转，取sin x
 {
-	out[0] = in[0] * my_sqrt(1 - my_pow(sinx)) - in[1] * sinx;
-	out[1] = in[1] * my_sqrt(1 - my_pow(sinx)) + in[0] * sinx;
+	out[0] = in[0] * cosx - in[1] * sinx;
+	out[1] = in[1] * cosx + in[0] * sinx;
 }
 
 /*

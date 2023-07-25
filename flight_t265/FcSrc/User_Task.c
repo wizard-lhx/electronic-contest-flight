@@ -107,8 +107,28 @@ void UserTask_OneKeyCmd(void)
 			break;
 			case 4:
 			{
-				
+				mission_step += Set_Position(0);
 			}
+			break;
+			case 5:
+			{
+				//µ»2√Î
+				if(time_dly_cnt_ms<2000)
+				{
+					time_dly_cnt_ms+=20;//ms
+				}
+				else
+				{
+					time_dly_cnt_ms = 0;
+					mission_step += 1;
+				}
+			}
+			break;
+			case 6:
+			{
+				mission_step += Set_Position(1);
+			}
+			break;
 			default:break;
 			}
         }

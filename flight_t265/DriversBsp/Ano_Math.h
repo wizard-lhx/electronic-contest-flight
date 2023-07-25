@@ -59,7 +59,7 @@ float linear_interpolation_5(float range[5], float interpolation[5], float in); 
 void length_limit(float *in1, float *in2, float limit, float *out1, float *out2);
 
 //====
-void rot_vec_2(float in[2], float sinx, float out[2]);
+void rot_vec_2(float in[2], float sinx, float cosx, float out[2]);
 float vec_2_cross_product(float in1[2], float in2[2]);                       //正负为in1->in2 夹角逆时针
 float vec_2_dot_product(float in1[2], float in2[2]);                         //正负为in1->in2 夹角（空间实际夹角）
 void vec_3_cross_product_err_sinx(float in1[3], float in2[3], float out[3]); //输出xyz误差夹角x 的sin(x)，右手螺旋

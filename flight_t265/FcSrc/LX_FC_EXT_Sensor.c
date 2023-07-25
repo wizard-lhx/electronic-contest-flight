@@ -19,20 +19,21 @@
 #include "Drv_AnoOf.h"
 #include "Drv_RasPi.h"
 #include "ANO_DT_LX.h"
+#include "Ano_Math.h"
 
 _fc_ext_sensor_st ext_sens;
 
 //这里把T265数据打包成通用速度传感器数据
 static inline void General_Velocity_Data_Handle()
 {
-	static u8 t265_update_cnt, of_alt_update_cnt, of_update_cnt;
+	static u8 of_alt_update_cnt, of_update_cnt, t265_update_cnt; 
 	static u8 dT_ms = 0;
 	//每一毫秒dT_ms+1，用来判断是否长时间无数据
 	if (dT_ms != 255)
 	{
 		dT_ms++;
 	}
-	//检查OF数据是否更新
+//	//检查OF数据是否更新
 //	if (of_update_cnt != ano_of.of_update_cnt)
 //	{
 //		of_update_cnt = ano_of.of_update_cnt;
@@ -53,8 +54,21 @@ static inline void General_Velocity_Data_Handle()
 		t265_update_cnt = raspi.t265_update_cnt;
 		if(raspi.t265_status == 1) // t265 有效
 		{
-			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = raspi.dx;
-			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = raspi.dy;
+			float vector_t265_vx[2] = {raspi.dx*1.0f, 0.0f}; 
+			float vector_flight_vx[2];
+			rot_vec_2(vector_t265_vx, (float)my_sin(raspi.angle/100.0*ONE_PI/180.0), 
+				(float)my_cos(raspi.angle/100.0*ONE_PI/180.0), vector_flight_vx);
+	
+			float vector_t265_vy[2] = {0.0f, raspi.dy*1.0f};
+			float vector_flight_vy[2];
+			rot_vec_2(vector_t265_vy, (float)my_sin(raspi.angle/100.0*ONE_PI/180.0), 
+				(float)my_cos(raspi.angle/100.0*ONE_PI/180.0), vector_flight_vy);
+			
+			s16 flight_vel_x = (s16)((s32)(vector_flight_vx[0] + vector_flight_vy[0]));
+			s16 flight_vel_y = (s16)((s32)(vector_flight_vx[1] + vector_flight_vy[1]));
+
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = flight_vel_x;
+			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = flight_vel_y;
 		}
 		else
 		{
@@ -108,8 +122,26 @@ static inline void General_Distance_Data_Handle()
 	}
 }
 
+//static inline void General_Position_Data_Handle()
+//{
+//	static u8 t265_update_cnt0;
+//	if(t265_update_cnt0 != raspi.t265_update_cnt)
+//	{
+//		//
+//		t265_update_cnt0 = raspi.t265_update_cnt;
+//		//
+//		ext_sens.gen_pos.st_data.ulhca_pos_cm[0] = raspi.x;
+//		ext_sens.gen_pos.st_data.ulhca_pos_cm[1] = raspi.y;
+//		ext_sens.gen_pos.st_data.ulhca_pos_cm[2] = 0x80000000;
+//		//触发发送
+//		dt.fun[0x32].WTS = 1;
+//	}
+//}
+
 void LX_FC_EXT_Sensor_Task(float dT_s) //1ms
 {
+	//
+	//General_Position_Data_Handle();
 	//
 	General_Velocity_Data_Handle();
 	//

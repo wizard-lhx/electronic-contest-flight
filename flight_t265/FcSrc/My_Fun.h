@@ -3,7 +3,7 @@
 
 #include "SysConfig.h"
 
-void Set_Position(u8 position_num);
-void Set_Angle(s16 angle);
+u8 Set_Position(u8 position_num);
+u8 Set_Angle(s16 angle);
 
 #endif
