@@ -416,3 +416,34 @@ float vec_3_dot_product(float in1[3], float in2[3]) //Õý¸ºÎªin1->in2 ¼Ð½Ç£¨¿Õ¼äÊ
 {
 	return (in1[0] * in2[0] + in1[1] * in2[1] + in1[2] * in2[2]);
 }
+
+// ËÄÔªÊý³Ë·¨
+quaternion_t quaternion_multiply(quaternion_t q1, quaternion_t q2) 
+{
+    quaternion_t result;
+    result.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
+    result.x = q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y;
+    result.y = q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x;
+    result.z = q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w;
+    return result;
+}
+
+// ËÄÔªÊý¹²éî
+quaternion_t quaternion_conjugate(quaternion_t q) 
+{
+    quaternion_t result;
+    result.w = q.w;
+    result.x = -q.x;
+    result.y = -q.y;
+    result.z = -q.z;
+    return result;
+}
+
+// ½«ÏòÁ¿Ðý×ªµ½ÐÂ×ø±êÏµ
+vector3d_t rotate_vector(vector3d_t vector, quaternion_t rotation) 
+{
+    quaternion_t v_quaternion = { 0, vector.x, vector.y, vector.z };
+    quaternion_t rotated_quaternion = quaternion_multiply(rotation, quaternion_multiply(v_quaternion, quaternion_conjugate(rotation)));
+    vector3d_t rotated_vector = { rotated_quaternion.x, rotated_quaternion.y, rotated_quaternion.z };
+    return rotated_vector;
+}

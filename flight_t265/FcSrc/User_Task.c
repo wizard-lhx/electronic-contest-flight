@@ -107,13 +107,13 @@ void UserTask_OneKeyCmd(void)
 			break;
 			case 4:
 			{
-				mission_step += Set_Position(0);
+				mission_step += OneKey_Takeoff(100);
 			}
 			break;
 			case 5:
 			{
-				//等2秒
-				if(time_dly_cnt_ms<2000)
+				//等5秒
+				if(time_dly_cnt_ms<5000)
 				{
 					time_dly_cnt_ms+=20;//ms
 				}
@@ -127,6 +127,68 @@ void UserTask_OneKeyCmd(void)
 			case 6:
 			{
 				mission_step += Set_Position(1);
+			}
+			break;
+			case 7:
+			{
+				//等2秒
+				if(time_dly_cnt_ms<2000)
+				{
+					time_dly_cnt_ms+=20;//ms
+				}
+				else
+				{
+					time_dly_cnt_ms = 0;
+					mission_step += 1;
+				}
+			}
+			break;
+			case 8:
+			{
+				mission_step += Set_Angle(90);
+			}
+			break;
+			case 9:
+			{
+				//等2秒
+				if(time_dly_cnt_ms<2000)
+				{
+					time_dly_cnt_ms+=20;//ms
+				}
+				else
+				{
+					time_dly_cnt_ms = 0;
+					mission_step = 12;
+				}
+			}
+			break;
+			case 10:
+			{
+				mission_step += Set_Position(3);
+			}
+			break;
+			case 11:
+			{
+				//等2秒
+				if(time_dly_cnt_ms<2000)
+				{
+					time_dly_cnt_ms+=20;//ms
+				}
+				else
+				{
+					time_dly_cnt_ms = 0;
+					mission_step += 1;
+				}
+			}
+			break;
+			case 12:
+			{
+				mission_step += OneKey_Land(); 
+			}
+			break;
+			case 13:
+			{
+				
 			}
 			break;
 			default:break;

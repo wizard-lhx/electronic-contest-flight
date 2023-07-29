@@ -21,6 +21,10 @@ typedef struct
 	s16 dz;
 	
 	s16 angle;
+	s16 qw;
+	s16 qx;
+	s16 qy;
+	s16 qz;
 } _raspi_st;
 
 //==数据声明

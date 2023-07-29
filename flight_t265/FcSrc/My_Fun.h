@@ -3,6 +3,8 @@
 
 #include "SysConfig.h"
 
+extern float flight_wz;
+
 u8 Set_Position(u8 position_num);
 u8 Set_Angle(s16 angle);
 

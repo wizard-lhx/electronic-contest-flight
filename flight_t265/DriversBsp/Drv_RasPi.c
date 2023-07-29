@@ -2,7 +2,7 @@
 #include "Drv_Uart.h"
 
 _raspi_st raspi;
-static uint8_t _datatemp[20];
+static uint8_t _datatemp[30];
 u8 tx_buffer[20];
 
 //RasPi_GetOneByte是初级数据解析函数，串口每接收到一字节树莓派数据，调用本函数一次，函数参数就是串口收到的数据
@@ -82,7 +82,12 @@ static void RasPi_DataAnl(uint8_t *data, uint8_t len)
 		raspi.dz = *((s16 *)(data + 13));
 		
 		raspi.angle = *((s16 *)(data + 15));
-		raspi.t265_status = *(data + 17);
+		raspi.qw = *((s16 *)(data + 17));
+		raspi.qx = *((s16 *)(data + 19));
+		raspi.qy = *((s16 *)(data + 21));
+		raspi.qz = *((s16 *)(data + 23));
+		
+		raspi.t265_status = *(data + 25);
 		raspi.t265_update_cnt += 1;
 	}
 }
@@ -100,7 +105,7 @@ void Send_Data_To_RasPi(u8* send_data, u8 data_len)
 	}
 	
 	u8 check_sum1 = 0, check_sum2 = 0;
-	for(u8 j = 0; j < data_len; j++)
+	for(u8 j = 0; j < data_len + 3; j++)
 	{
 		check_sum1 += send_data[j];
 		check_sum2 += check_sum1;

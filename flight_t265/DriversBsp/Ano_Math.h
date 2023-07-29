@@ -2,6 +2,14 @@
 #define __ANO_MATH_H__
 #include "SysConfig.h"
 
+typedef struct {
+    float w, x, y, z;
+} quaternion_t;
+
+typedef struct {
+    float x, y, z;
+} vector3d_t;
+
 #define REAL float
 #define TAN_MAP_RES 0.003921569f /* (smallest non-zero value in table) */
 #define RAD_PER_DEG 0.017453293f
@@ -64,4 +72,6 @@ float vec_2_cross_product(float in1[2], float in2[2]);                       //’
 float vec_2_dot_product(float in1[2], float in2[2]);                         //’˝∏∫Œ™in1->in2 º–Ω«£®ø’º‰ µº º–Ω«£©
 void vec_3_cross_product_err_sinx(float in1[3], float in2[3], float out[3]); // ‰≥ˆxyzŒÛ≤Óº–Ω«x µƒsin(x)£¨”“ ÷¬›–˝
 float vec_3_dot_product(float in1[3], float in2[3]);                         //’˝∏∫Œ™in1->in2 º–Ω«£®ø’º‰ µº º–Ω«£©
+
+vector3d_t rotate_vector(vector3d_t vector, quaternion_t rotation);
 #endif

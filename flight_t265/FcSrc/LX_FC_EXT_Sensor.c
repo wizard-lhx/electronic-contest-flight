@@ -22,7 +22,6 @@
 #include "Ano_Math.h"
 
 _fc_ext_sensor_st ext_sens;
-
 //这里把T265数据打包成通用速度传感器数据
 static inline void General_Velocity_Data_Handle()
 {
@@ -33,51 +32,8 @@ static inline void General_Velocity_Data_Handle()
 	{
 		dT_ms++;
 	}
-//	//检查OF数据是否更新
-//	if (of_update_cnt != ano_of.of_update_cnt)
-//	{
-//		of_update_cnt = ano_of.of_update_cnt;
-//		//XY_VEL
-//		if (ano_of.of1_sta && ano_of.work_sta) //光流有效
-//		{
-//			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = ano_of.of1_dx;
-//			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = ano_of.of1_dy;
-//		}
-//		else //无效
-//		{
-//			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = 0x8000;
-//			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = 0x8000;
-//		}
-//	}
-	if(t265_update_cnt != raspi.t265_update_cnt)
-	{
-		t265_update_cnt = raspi.t265_update_cnt;
-		if(raspi.t265_status == 1) // t265 有效
-		{
-			float vector_t265_vx[2] = {raspi.dx*1.0f, 0.0f}; 
-			float vector_flight_vx[2];
-			rot_vec_2(vector_t265_vx, (float)my_sin(raspi.angle/100.0*ONE_PI/180.0), 
-				(float)my_cos(raspi.angle/100.0*ONE_PI/180.0), vector_flight_vx);
-	
-			float vector_t265_vy[2] = {0.0f, raspi.dy*1.0f};
-			float vector_flight_vy[2];
-			rot_vec_2(vector_t265_vy, (float)my_sin(raspi.angle/100.0*ONE_PI/180.0), 
-				(float)my_cos(raspi.angle/100.0*ONE_PI/180.0), vector_flight_vy);
-			
-			s16 flight_vel_x = (s16)((s32)(vector_flight_vx[0] + vector_flight_vy[0]));
-			s16 flight_vel_y = (s16)((s32)(vector_flight_vx[1] + vector_flight_vy[1]));
-
-			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = flight_vel_x;
-			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = flight_vel_y;
-		}
-		else
-		{
-			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = 0x8000;
-			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = 0x8000;
-		}
-	}
-	//如果 t265 失效，检查OF数据是否更新
-	else if (of_update_cnt != ano_of.of_update_cnt && raspi.t265_status == 0)
+	//检查OF数据是否更新
+	if (of_update_cnt != ano_of.of_update_cnt)
 	{
 		of_update_cnt = ano_of.of_update_cnt;
 		//XY_VEL
@@ -92,6 +48,63 @@ static inline void General_Velocity_Data_Handle()
 			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = 0x8000;
 		}
 	}
+//	if(t265_update_cnt != raspi.t265_update_cnt)
+//	{
+//		t265_update_cnt = raspi.t265_update_cnt;
+//		if(raspi.t265_status == 1) // t265 有效
+//		{
+////			float vector_t265_vx[2] = {raspi.dx*1.0f, 0.0f}; 
+////			float vector_flight_vx[2];
+////			rot_vec_2(vector_t265_vx, (float)my_sin(raspi.angle/100.0*ONE_PI/180.0), 
+////				(float)my_cos(raspi.angle/100.0*ONE_PI/180.0), vector_flight_vx);
+////	
+////			float vector_t265_vy[2] = {0.0f, raspi.dy*1.0f};
+////			float vector_flight_vy[2];
+////			rot_vec_2(vector_t265_vy, (float)my_sin(raspi.angle/100.0*ONE_PI/180.0), 
+////				(float)my_cos(raspi.angle/100.0*ONE_PI/180.0), vector_flight_vy);
+////			
+////			s16 flight_vel_x = (s16)((s32)(vector_flight_vx[0] + vector_flight_vy[0]));
+////			s16 flight_vel_y = (s16)((s32)(vector_flight_vx[1] + vector_flight_vy[1]));
+
+//			vector3d_t vector_t265 = {raspi.dx, raspi.dy, raspi.dz};
+//			quaternion_t quaternion_t265 = {raspi.qw/10000.0f, raspi.qx/10000.0f,
+//			raspi.qy/10000.0f, raspi.qz/10000.0f};
+//			vector3d_t flight_vel = rotate_vector(vector_t265, quaternion_t265);
+//			
+//			if((s16)flight_vel.x <= 1 && (s16)flight_vel.x >= -1)
+//			{
+//				flight_vel.x = 0;
+//			}	
+//			if((s16)flight_vel.y <= 1 && (s16)flight_vel.y >= -1)
+//			{
+//				flight_vel.y = 0;
+//			}	
+//			
+//			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = (s16)flight_vel.x;
+//			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = (s16)flight_vel.y;
+//		}
+//		else
+//		{
+//			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = 0x8000;
+//			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = 0x8000;
+//		}
+//	}
+//	//如果 t265 失效，检查OF数据是否更新
+//	else if (of_update_cnt != ano_of.of_update_cnt && raspi.t265_status == 0)
+//	{
+//		of_update_cnt = ano_of.of_update_cnt;
+//		//XY_VEL
+//		if (ano_of.of1_sta && ano_of.work_sta) //光流有效
+//		{
+//			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = ano_of.of1_dx;
+//			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = ano_of.of1_dy;
+//		}
+//		else //无效
+//		{
+//			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = 0x8000;
+//			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = 0x8000;
+//		}
+//	}
 	if (of_alt_update_cnt != ano_of.alt_update_cnt)
 	{
 		//

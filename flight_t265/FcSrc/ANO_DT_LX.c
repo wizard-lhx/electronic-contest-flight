@@ -6,6 +6,7 @@
 #include "LX_FC_State.h"
 #include "Drv_Uart.h"
 #include "Drv_RasPi.h"
+#include "My_Fun.h"
 
 /*==========================================================================
  * 描述    ：凌霄飞控通信主程序
@@ -46,9 +47,9 @@ void ANO_DT_Init(void)
 	dt.fun[0x30].fre_ms = 0;	  //0 由外部触发
 	dt.fun[0x30].time_cnt_ms = 0; //设置初始相位，单位1ms
 	//
-	dt.fun[0x32].D_Addr = 0xff;
-	dt.fun[0x32].fre_ms = 0;	  //0 由外部触发
-	dt.fun[0x32].time_cnt_ms = 0; //设置初始相位，单位1ms
+//	dt.fun[0x32].D_Addr = 0xff;
+//	dt.fun[0x32].fre_ms = 0;	  //0 由外部触发
+//	dt.fun[0x32].time_cnt_ms = 0; //设置初始相位，单位1ms
 	//
 	dt.fun[0x33].D_Addr = 0xff;
 	dt.fun[0x33].fre_ms = 0;	  //0 由外部触发
@@ -71,6 +72,10 @@ void ANO_DT_Init(void)
 	dt.fun[0xe2].time_cnt_ms = 0; //设置初始相位，单位1ms
 	
 	dt.fun[0xf1].D_Addr = 0xff;   //用户自定义帧
+	dt.fun[0xf1].fre_ms = 0;
+	dt.fun[0xf1].time_cnt_ms = 0;
+	
+	dt.fun[0xf2].D_Addr = 0xff;   //用户自定义帧
 	dt.fun[0xf1].fre_ms = 0;
 	dt.fun[0xf1].time_cnt_ms = 0;
 }
@@ -336,15 +341,15 @@ static void Add_Send_Data(u8 frame_num, u8 *_cnt, u8 send_buffer[])
 		}
 	}
 	break;
-	case 0x32: //通用位置测量数据
-	{
-		//
-		for (u8 i = 0; i < 12; i++)
-		{
-			send_buffer[(*_cnt)++] = ext_sens.gen_pos.byte[i];
-		}
-	}
-	break;
+//	case 0x32: //通用位置测量数据
+//	{
+//		//
+//		for (u8 i = 0; i < 12; i++)
+//		{
+//			send_buffer[(*_cnt)++] = ext_sens.gen_pos.byte[i];
+//		}
+//	}
+//	break;
 	case 0x33: //通用速度测量数据
 	{
 		//
@@ -417,6 +422,13 @@ static void Add_Send_Data(u8 frame_num, u8 *_cnt, u8 send_buffer[])
 		{
 			send_buffer[(*_cnt)++] = rt_tar.byte_data[i];
 		}
+	}
+	break;
+	case 0xf2: //PARA返回
+	{
+		s16 temp = -(s16)flight_wz;
+		send_buffer[(*_cnt)++] = BYTE0(temp);
+		send_buffer[(*_cnt)++] = BYTE1(temp);
 	}
 	break;
 	default:
@@ -549,7 +561,7 @@ void ANO_LX_Data_Exchange_Task(float dT_s)
 	CK_Back_Check();
 	//=====检测是否触发发送
 	Check_To_Send(0x30);
-	Check_To_Send(0x32);
+//	Check_To_Send(0x32);
 	Check_To_Send(0x33);
 	Check_To_Send(0x34);
 	Check_To_Send(0x40);
@@ -557,7 +569,8 @@ void ANO_LX_Data_Exchange_Task(float dT_s)
 	Check_To_Send(0xe0);
 	Check_To_Send(0xe2);
 	Check_To_Send(0x0d);
-	Check_To_Send(0xf1);	
+	Check_To_Send(0xf1);
+	Check_To_Send(0xf2);	
 }
 
 //===================================================================

@@ -11,6 +11,7 @@
 #include "Drv_UbloxGPS.h"
 #include "LX_FC_Fun.h"
 #include "Drv_Uart.h"
+#include "My_Fun.h"
 
 /*==========================================================================
  * 描述    ：凌霄飞控输入、输出主程序
@@ -146,7 +147,8 @@ static inline void RC_Data_Task(float dT_s)
 //		}
 		//############(实时控制帧，自主开发闭环控制，在这里赋值即可)##############
 		//实时XYZ-YAW期望速度(实时控制帧)
-//		rt_tar.st_data.yaw_dps = 0;  //航向转动角速度，度每秒，逆时针为正
+		s16 temp = -(s16)flight_wz;
+		rt_tar.st_data.yaw_dps = temp;  //航向转动角速度，度每秒，逆时针为正
 //		rt_tar.st_data.vel_x = 0;    //头向速度，厘米每秒
 //		rt_tar.st_data.vel_y = 0;    //左向速度，厘米每秒
 //		rt_tar.st_data.vel_z = 0;	 //天向速度，厘米每秒

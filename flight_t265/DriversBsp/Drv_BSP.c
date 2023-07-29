@@ -28,7 +28,7 @@ u8 All_Init()
 	DrvPwmOutInit();
 	MyDelayMs(100);
 	//串口2初始化，函数参数为波特率
-	DrvUart2Init(115200);
+	DrvUart2Init(230400);
 	//串口3初始化
 	DrvUart3Init(500000);
 	//接匿名光流
@@ -52,7 +52,7 @@ u8 All_Init()
 	PID_Init(&pos_x_pid, 0.3f, 0.0f, 0.01f, 5.0f, 15.0f);
 	PID_Init(&pos_y_pid, 0.3f, 0.0f, 0.01f, 5.0f, 15.0f);
 	PID_Init(&pos_z_pid, 0.3f, 0.0f, 0.01f, 5.0f, 15.0f);
-	PID_Init(&angle_pid, 0.1f, 0.001f, 0.07f, 2.5f, 20.0f);
+	PID_Init(&angle_pid, 0.3f, 0.0f, 0.01f, 2.5f, 20.0f);
 	//初始化完成，返回1
 	return (1);
 }
