@@ -20,8 +20,19 @@
 #include "Drv_RasPi.h"
 #include "ANO_DT_LX.h"
 #include "Ano_Math.h"
+#include "ANO_LX.h"
 
 _fc_ext_sensor_st ext_sens;
+init_qua_st init_qua;
+
+//获取初始的飞机位姿
+void Qua_Init(void)
+{
+	init_qua.init_qua_wx10000 = fc_att_qua.st_data.w_x10000;
+	init_qua.init_qua_xx10000 = fc_att_qua.st_data.x_x10000;
+	init_qua.init_qua_yx10000 = fc_att_qua.st_data.y_x10000;
+	init_qua.init_qua_zx10000 = fc_att_qua.st_data.z_x10000;
+}
 //这里把T265数据打包成通用速度传感器数据
 static inline void General_Velocity_Data_Handle()
 {
@@ -67,18 +78,12 @@ static inline void General_Velocity_Data_Handle()
 ////			s16 flight_vel_y = (s16)((s32)(vector_flight_vx[1] + vector_flight_vy[1]));
 
 //			vector3d_t vector_t265 = {raspi.dx, raspi.dy, raspi.dz};
-//			quaternion_t quaternion_t265 = {raspi.qw/10000.0f, raspi.qx/10000.0f,
-//			raspi.qy/10000.0f, raspi.qz/10000.0f};
-//			vector3d_t flight_vel = rotate_vector(vector_t265, quaternion_t265);
-//			
-//			if((s16)flight_vel.x <= 1 && (s16)flight_vel.x >= -1)
-//			{
-//				flight_vel.x = 0;
-//			}	
-//			if((s16)flight_vel.y <= 1 && (s16)flight_vel.y >= -1)
-//			{
-//				flight_vel.y = 0;
-//			}	
+//			quaternion_t quaternion_init_flight = {init_qua.init_qua_wx10000/10000.0f, -init_qua.init_qua_xx10000/10000.0f,
+//			-init_qua.init_qua_yx10000/10000.0f, -init_qua.init_qua_zx10000/10000.0f};
+//			vector_t265 = rotate_vector(vector_t265, quaternion_init_flight);
+//			quaternion_t quaternion_flight = {fc_att_qua.st_data.w_x10000/10000.0f, fc_att_qua.st_data.x_x10000/10000.0f,
+//			fc_att_qua.st_data.y_x10000/10000.0f, fc_att_qua.st_data.z_x10000/10000.0f};
+//			vector3d_t flight_vel = rotate_vector(vector_t265, quaternion_flight);
 //			
 //			ext_sens.gen_vel.st_data.hca_velocity_cmps[0] = (s16)flight_vel.x;
 //			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = (s16)flight_vel.y;

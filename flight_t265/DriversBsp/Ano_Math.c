@@ -377,7 +377,7 @@ float fifo(u8 arr_num, u8 *cnt, float *arr, float in)
 /*
 |x2|    |cosx,-sinx|   |x1|
 |  | =  |          |   |  |
-|y2|    |sinx, cosx|   |y2|
+|y2|    |sinx, cosx|   |y1|
 */
 void rot_vec_2(float in[2], float sinx, float cosx, float out[2]) //x = +-90¶ÈÐý×ª£¬È¡sin x
 {
@@ -443,7 +443,7 @@ quaternion_t quaternion_conjugate(quaternion_t q)
 vector3d_t rotate_vector(vector3d_t vector, quaternion_t rotation) 
 {
     quaternion_t v_quaternion = { 0, vector.x, vector.y, vector.z };
-    quaternion_t rotated_quaternion = quaternion_multiply(rotation, quaternion_multiply(v_quaternion, quaternion_conjugate(rotation)));
+    quaternion_t rotated_quaternion = quaternion_multiply(quaternion_conjugate(rotation), quaternion_multiply(v_quaternion, rotation));
     vector3d_t rotated_vector = { rotated_quaternion.x, rotated_quaternion.y, rotated_quaternion.z };
     return rotated_vector;
 }

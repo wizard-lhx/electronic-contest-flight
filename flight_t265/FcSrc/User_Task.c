@@ -2,7 +2,7 @@
 #include "Drv_RcIn.h"
 #include "LX_FC_Fun.h"
 #include "My_Fun.h"
-
+u8 mission_step;//static u8 mission_step;
 void UserTask_OneKeyCmd(void)
 {
     //////////////////////////////////////////////////////////////////////
@@ -10,7 +10,6 @@ void UserTask_OneKeyCmd(void)
     //////////////////////////////////////////////////////////////////////
     //用静态变量记录一键起飞/降落指令已经执行。
     static u8 one_key_takeoff_f = 1, one_key_land_f = 1, one_key_mission_f = 0;
-    static u8 mission_step;
     //判断有遥控信号才执行
     if (rc_in.fail_safe == 0)
     {
@@ -158,7 +157,7 @@ void UserTask_OneKeyCmd(void)
 				else
 				{
 					time_dly_cnt_ms = 0;
-					mission_step = 12;
+					mission_step += 1;
 				}
 			}
 			break;

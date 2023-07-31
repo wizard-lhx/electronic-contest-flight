@@ -75,12 +75,22 @@ typedef struct
 	_fc_gps_un fc_gps;
 
 } _fc_ext_sensor_st;
+
+typedef struct
+{
+	s16 init_qua_wx10000;
+	s16 init_qua_xx10000;
+	s16 init_qua_yx10000;
+	s16 init_qua_zx10000;
+} init_qua_st;
 //==数据声明
+extern init_qua_st init_qua;
 extern _fc_ext_sensor_st ext_sens;
 //==函数声明
 //static
 
 //public
 void LX_FC_EXT_Sensor_Task(float dT_s);
+void Qua_Init(void);
 
 #endif

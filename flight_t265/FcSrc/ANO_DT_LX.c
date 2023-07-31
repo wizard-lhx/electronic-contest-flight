@@ -7,6 +7,7 @@
 #include "Drv_Uart.h"
 #include "Drv_RasPi.h"
 #include "My_Fun.h"
+#include "User_Task.h"
 
 /*==========================================================================
  * 描述    ：凌霄飞控通信主程序
@@ -418,17 +419,21 @@ static void Add_Send_Data(u8 frame_num, u8 *_cnt, u8 send_buffer[])
 		{
 			send_buffer[(*_cnt)++] = ext_sens.gen_vel.byte[i];
 		}
+		send_buffer[(*_cnt)++] = mission_step;
 		for(u8 i = 6; i < 14; i++)  //实时控制帧的角速度，xyz轴速度
 		{
 			send_buffer[(*_cnt)++] = rt_tar.byte_data[i];
 		}
 	}
 	break;
-	case 0xf2: //PARA返回
+	case 0xf2: //用户自定义帧
 	{
-		s16 temp = -(s16)flight_wz;
-		send_buffer[(*_cnt)++] = BYTE0(temp);
-		send_buffer[(*_cnt)++] = BYTE1(temp);
+		s16 tempx = (s16)vector_flight_vel[0];
+		s16 tempy = (s16)vector_flight_vel[1];
+		send_buffer[(*_cnt)++] = BYTE0(tempx);
+		send_buffer[(*_cnt)++] = BYTE1(tempx);
+		send_buffer[(*_cnt)++] = BYTE0(tempy);
+		send_buffer[(*_cnt)++] = BYTE1(tempy);
 	}
 	break;
 	default:
