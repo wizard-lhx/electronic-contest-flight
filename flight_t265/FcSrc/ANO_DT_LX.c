@@ -8,6 +8,8 @@
 #include "Drv_RasPi.h"
 #include "My_Fun.h"
 #include "User_Task.h"
+#include "Drv_OpenMV_Front.h"
+#include "Drv_ANO_DT.h"
 
 /*==========================================================================
  * 描述    ：凌霄飞控通信主程序
@@ -415,11 +417,15 @@ static void Add_Send_Data(u8 frame_num, u8 *_cnt, u8 send_buffer[])
 		send_buffer[(*_cnt)++] = BYTE1(raspi.y);
 		send_buffer[(*_cnt)++] = BYTE0(raspi.angle);
 		send_buffer[(*_cnt)++] = BYTE1(raspi.angle);
-		for(u8 i = 0; i < 4; i++)   //T265 的水平速度
+//		send_buffer[(*_cnt)++] = BYTE0(openmv_front.dx);
+//		send_buffer[(*_cnt)++] = BYTE1(openmv_front.dx);
+//		send_buffer[(*_cnt)++] = BYTE0(openmv_front.dy);
+//		send_buffer[(*_cnt)++] = BYTE1(openmv_front.dy);
+		for(u8 i = 0; i < 4; i++)  //通用速度
 		{
 			send_buffer[(*_cnt)++] = ext_sens.gen_vel.byte[i];
 		}
-		send_buffer[(*_cnt)++] = mission_step;
+		send_buffer[(*_cnt)++] = car_cmd;
 		for(u8 i = 6; i < 14; i++)  //实时控制帧的角速度，xyz轴速度
 		{
 			send_buffer[(*_cnt)++] = rt_tar.byte_data[i];

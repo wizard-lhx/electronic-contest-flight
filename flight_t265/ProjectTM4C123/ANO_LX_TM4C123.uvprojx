@@ -530,6 +530,26 @@
               <FileType>5</FileType>
               <FilePath>..\DriversBsp\Drv_RasPi.h</FilePath>
             </File>
+            <File>
+              <FileName>Drv_OpenMV_Front.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversBsp\Drv_OpenMV_Front.c</FilePath>
+            </File>
+            <File>
+              <FileName>Drv_OpenMV_Front.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DriversBsp\Drv_OpenMV_Front.h</FilePath>
+            </File>
+            <File>
+              <FileName>Drv_ANO_DT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversBsp\Drv_ANO_DT.c</FilePath>
+            </File>
+            <File>
+              <FileName>Drv_ANO_DT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DriversBsp\Drv_ANO_DT.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

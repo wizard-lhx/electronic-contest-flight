@@ -12,6 +12,7 @@
 #include "LX_FC_Fun.h"
 #include "Drv_Uart.h"
 #include "My_Fun.h"
+#include "Drv_ANO_DT.h"
 
 /*==========================================================================
  * ÃèÊö    £ºÁèÏö·É¿ØÊäÈë¡¢Êä³öÖ÷³ÌÐò
@@ -300,4 +301,11 @@ void ANO_LX_Task()
 	ESC_Output(1); //unlocked
 	//µÆ¹âÇý¶¯
 	LED_1ms_DRV();
+	static u16 my_cnt;
+	my_cnt++;
+	if(my_cnt >= 1000)
+	{
+		my_cnt = 0;
+		Send_Data_To_ANO_DT(7);
+	}
 }

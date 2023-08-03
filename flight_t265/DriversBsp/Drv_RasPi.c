@@ -3,7 +3,7 @@
 
 _raspi_st raspi;
 static uint8_t _datatemp[30];
-u8 tx_buffer[20];
+static u8 tx_buffer[20];
 
 //RasPi_GetOneByte是初级数据解析函数，串口每接收到一字节树莓派数据，调用本函数一次，函数参数就是串口收到的数据
 //当本函数多次被调用，最终接收到完整的一帧数据后，会自动调用数据解析函数RasPi_DataAnl

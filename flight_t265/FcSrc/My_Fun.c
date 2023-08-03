@@ -5,9 +5,9 @@
 #include "Ano_Math.h"
 #include "Ano_DT_LX.h"
 
-s16 position_x_set[10] = {0, 50, 50,  -50};
-s16 position_y_set[10] = {0, 50, -50, 0  };
-s16 position_z_set[10] = {50,100,100, 100};
+s16 position_x_set[12] = {0,  0,    310,  310,  80,   80,   300,  300,  80,   80,  300, 300};
+s16 position_y_set[12] = {0,  -380, -380, -320, -320, -240, -240, -160, -160, -80, -80, 0};
+s16 position_z_set[12] = {180,180,  180,  180,  180,  180,  180,  180,  180,  180, 180, 180};
 float vector_flight_vel[2];
 u8 Set_Position(u8 position_num)
 {
@@ -31,8 +31,9 @@ u8 Set_Position(u8 position_num)
 	rt_tar.st_data.vel_y = flight_vel_y;
 	rt_tar.st_data.vel_z = flight_vel_z;
 	
-	if(rt_tar.st_data.vel_x < 3 && rt_tar.st_data.vel_y < 3 && rt_tar.st_data.vel_z < 3 && 
-		rt_tar.st_data.vel_x > -3 && rt_tar.st_data.vel_y > -3 && rt_tar.st_data.vel_z > -3)
+	if(position_x_set[position_num] - raspi.x < 3 && position_y_set[position_num] - raspi.y < 3 && 
+		position_z_set[position_num] - (s16)ano_of.of_alt_cm < 3 && position_x_set[position_num] - raspi.x > -3 && 
+	position_y_set[position_num] - raspi.y > -3 && position_z_set[position_num] - (s16)ano_of.of_alt_cm > -3)
 	{
 		rt_tar.st_data.vel_x = 0;
 		rt_tar.st_data.vel_y = 0;
@@ -65,4 +66,23 @@ u8 Set_Angle(s16 angle)
 	{
 		return 0;
 	}
+}
+
+u8 Take_Off(u32 height)
+{
+	rt_tar.st_data.vel_z = 30;
+	if(ano_of.of_alt_cm > (height - 10))
+	{
+		rt_tar.st_data.vel_z = 0;
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void Land(void)
+{
+	rt_tar.st_data.vel_z = -30;
 }

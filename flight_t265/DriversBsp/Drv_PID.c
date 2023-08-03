@@ -1,4 +1,5 @@
 #include "Drv_PID.h"
+#include "Ano_Math.h"
 
 pid_t pos_x_pid;
 pid_t pos_y_pid;
@@ -22,10 +23,19 @@ float PID_Cal(pid_t *pid, float set, float ref)
 	pid->error = set - ref;
 	
 	pid->pout = pid->kp * pid->error;
-	pid->iout += pid->ki * pid->error;
+	//pid->iout += pid->ki * pid->error;
 	pid->dout = pid->kd * (pid->error - pid->last_error);
 	
 	pid->last_error = pid->error;
+	
+	if(pid->error < 10.0f || pid->error > -10.0f)
+	{
+		pid->iout += pid->ki * pid->error;
+	}
+	else
+	{
+		pid->iout = 0;
+	}
 	
 	if(pid->iout > pid->max_iout)
 	{
