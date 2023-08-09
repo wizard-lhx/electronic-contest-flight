@@ -550,6 +550,16 @@
               <FileType>5</FileType>
               <FilePath>..\DriversBsp\Drv_ANO_DT.h</FilePath>
             </File>
+            <File>
+              <FileName>Drv_UWB.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DriversBsp\Drv_UWB.c</FilePath>
+            </File>
+            <File>
+              <FileName>Drv_UWB.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DriversBsp\Drv_UWB.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

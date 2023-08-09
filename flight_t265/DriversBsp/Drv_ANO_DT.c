@@ -1,4 +1,4 @@
-#include "Drv_ANO_DT.h"
+#include "Drv_ANO_DT.h" // 数传串口驱动函数，主要与小车进行通信。
 #include "Drv_Uart.h"
 
 _ano_dt_st ano_dt;
@@ -6,7 +6,7 @@ u8 car_cmd = 0;
 static uint8_t _datatemp[10];
 static u8 tx_buffer[13];
 
-//ANO_DT_GetOneByte是初级数据解析函数，串口每接收到一字节飞机数据，调用本函数一次，函数参数就是串口收到的数据
+//ANO_DT_GetOneByte是初级数据解析函数，串口每接收到一字节小车数据，调用本函数一次，函数参数就是串口收到的数据
 //当本函数多次被调用，最终接收到完整的一帧数据后，会自动调用数据解析函数ANO_DT_DataAnl
 void ANO_DT_GetOneByte(uint8_t data)
 {
@@ -84,7 +84,7 @@ void Send_Data_To_ANO_DT(u8 data_len)
 	tx_buffer[0] = 0xBB;
 	tx_buffer[1] = 0x02;
 	tx_buffer[2] = data_len;
-	
+	// 因为发送到小车数传的数据是固定不变的，所以将内容写死
 	tx_buffer[3] = BYTE0(ano_dt.x);
 	tx_buffer[4] = BYTE1(ano_dt.x);
 	tx_buffer[5] = BYTE0(ano_dt.y);

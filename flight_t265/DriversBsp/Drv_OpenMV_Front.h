@@ -10,6 +10,7 @@ typedef struct
 {
 	s16 dx;
 	s16 dy;
+	u8 state;
 } _openmv_front_st;
 
 //==数据声明

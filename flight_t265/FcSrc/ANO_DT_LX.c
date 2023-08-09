@@ -10,6 +10,7 @@
 #include "User_Task.h"
 #include "Drv_OpenMV_Front.h"
 #include "Drv_ANO_DT.h"
+#include "Drv_UWB.h"
 
 /*==========================================================================
  * 描述    ：凌霄飞控通信主程序
@@ -434,12 +435,25 @@ static void Add_Send_Data(u8 frame_num, u8 *_cnt, u8 send_buffer[])
 	break;
 	case 0xf2: //用户自定义帧
 	{
-		s16 tempx = (s16)vector_flight_vel[0];
-		s16 tempy = (s16)vector_flight_vel[1];
-		send_buffer[(*_cnt)++] = BYTE0(tempx);
-		send_buffer[(*_cnt)++] = BYTE1(tempx);
-		send_buffer[(*_cnt)++] = BYTE0(tempy);
-		send_buffer[(*_cnt)++] = BYTE1(tempy);
+//		s16 tempx = (s16)vector_flight_vel[0];
+//		s16 tempy = (s16)vector_flight_vel[1];
+		send_buffer[(*_cnt)++] = BYTE0(s_x_set);
+		send_buffer[(*_cnt)++] = BYTE1(s_x_set);
+		send_buffer[(*_cnt)++] = BYTE0(r_x_ref);
+		send_buffer[(*_cnt)++] = BYTE1(r_x_ref);
+		send_buffer[(*_cnt)++] = BYTE0(s_y_set);
+		send_buffer[(*_cnt)++] = BYTE1(s_y_set);
+		send_buffer[(*_cnt)++] = BYTE0(r_y_ref);
+		send_buffer[(*_cnt)++] = BYTE1(r_y_ref);
+		send_buffer[(*_cnt)++] = BYTE0(s_angle_set);
+		send_buffer[(*_cnt)++] = BYTE1(s_angle_set);
+		send_buffer[(*_cnt)++] = BYTE0(r_angle_ref);
+		send_buffer[(*_cnt)++] = BYTE1(r_angle_ref);
+		send_buffer[(*_cnt)++] = BYTE0(r_openmv_x_ref);
+		send_buffer[(*_cnt)++] = BYTE1(r_openmv_x_ref);
+		send_buffer[(*_cnt)++] = BYTE0(r_openmv_y_ref);
+		send_buffer[(*_cnt)++] = BYTE1(r_openmv_y_ref);
+		send_buffer[(*_cnt)++] = openmv_front.state;
 	}
 	break;
 	default:

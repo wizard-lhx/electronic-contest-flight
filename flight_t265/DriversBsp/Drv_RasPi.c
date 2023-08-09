@@ -1,5 +1,5 @@
-#include "Drv_RasPi.h"
-#include "Drv_Uart.h"
+#include "Drv_RasPi.h" // 树莓派串口发送接收驱动文件
+#include "Drv_Uart.h"  // 主要通过树莓派接受 T265 数据，同时可以发送指令到树莓派执行相应动作
 
 _raspi_st raspi;
 static uint8_t _datatemp[30];

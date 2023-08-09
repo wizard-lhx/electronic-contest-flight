@@ -1,11 +1,12 @@
-#include "Drv_OpenMV_Front.h"
+#include "Drv_OpenMV_Front.h" // OpenMV 串口接收发送函数，可以接收OpenMV传来的位置偏差，以及发送命令让OpenMV执行
 #include "Drv_Uart.h"
+#include "ANO_DT_LX.h"
 
 _openmv_front_st openmv_front;
 static uint8_t _datatemp[30];
 static u8 tx_buffer[20];
 
-//OpenMV_Front_GetOneByte是初级数据解析函数，串口每接收到一字节树莓派数据，调用本函数一次，函数参数就是串口收到的数据
+//OpenMV_Front_GetOneByte是初级数据解析函数，串口每接收到一字节OpenMV数据，调用本函数一次，函数参数就是串口收到的数据
 //当本函数多次被调用，最终接收到完整的一帧数据后，会自动调用数据解析函数OpenMV_Front_DataAnl
 void OpenMV_Front_GetOneByte(uint8_t data)
 {
@@ -55,7 +56,7 @@ void OpenMV_Front_GetOneByte(uint8_t data)
 		rxstate = 0;
 	}
 }
-//RasPi_DataAnl为树莓派数据解析函数，可以通过本函数得到树莓派输出的各项数据
+//OpenMV_Front_DataAnl为OpenMV数据解析函数，可以通过本函数得到OpenMV输出的各项数据
 
 static void OpenMV_Front_DataAnl(uint8_t *data, uint8_t len)
 {
@@ -75,6 +76,8 @@ static void OpenMV_Front_DataAnl(uint8_t *data, uint8_t len)
 	{
 		openmv_front.dx = *((s16 *)(data + 3));
 		openmv_front.dy = *((s16 *)(data + 5));
+		openmv_front.state = *(data + 7);
+		//dt.fun[0xf2].WTS = 1;
 	}
 }
 

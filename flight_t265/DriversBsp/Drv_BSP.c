@@ -30,7 +30,7 @@ u8 All_Init()
 	//串口1初始化
 	DrvUart1Init(115200);
 	//串口2初始化，函数参数为波特率
-	DrvUart2Init(230400);
+	DrvUart2Init(921600);
 	//串口3初始化
 	DrvUart3Init(500000);
 	//接匿名光流
@@ -51,10 +51,10 @@ u8 All_Init()
 	//初始化定时中断
 	DrvTimerFcInit();
 	//PID参数初始化
-	PID_Init(&pos_x_pid, 0.3f, 0.03f, 0.00f, 5.0f, 25.0f);
-	PID_Init(&pos_y_pid, 0.3f, 0.03f, 0.00f, 5.0f, 25.0f);
+	PID_Init(&pos_x_pid, 0.3f, 0.06f, 0.5f, 2.5f, 40.0f);
+	PID_Init(&pos_y_pid, 0.3f, 0.06f, 0.5f, 2.5f, 40.0f);
 	PID_Init(&pos_z_pid, 0.3f, 0.00f, 0.00f, 5.0f, 25.0f);
-	PID_Init(&angle_pid, 0.3f, 0.00f, 0.01f, 2.5f, 20.0f);
+	PID_Init(&angle_pid, 0.3f, 0.0001f, 0.5f, 2.5f, 20.0f);
 	//初始化完成，返回1
 	return (1);
 }

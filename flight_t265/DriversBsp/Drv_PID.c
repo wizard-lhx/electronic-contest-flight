@@ -1,4 +1,4 @@
-#include "Drv_PID.h"
+#include "Drv_PID.h"   // PID 算法驱动函数
 #include "Ano_Math.h"
 
 pid_t pos_x_pid;
@@ -28,7 +28,8 @@ float PID_Cal(pid_t *pid, float set, float ref)
 	
 	pid->last_error = pid->error;
 	
-	if(pid->error < 10.0f || pid->error > -10.0f)
+	// 积分分离
+	if(pid->error < 20.0f || pid->error > -20.0f)
 	{
 		pid->iout += pid->ki * pid->error;
 	}
@@ -37,6 +38,7 @@ float PID_Cal(pid_t *pid, float set, float ref)
 		pid->iout = 0;
 	}
 	
+	// 积分限幅
 	if(pid->iout > pid->max_iout)
 	{
 		pid->iout = pid->max_iout;
@@ -47,7 +49,7 @@ float PID_Cal(pid_t *pid, float set, float ref)
 	}
 	
 	pid->out = pid->pout + pid->iout + pid->dout;
-	
+	// 输出限幅
 	if(pid->out > pid->max_out)
 	{
 		pid->out = pid->max_out;

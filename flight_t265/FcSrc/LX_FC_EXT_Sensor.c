@@ -59,6 +59,7 @@ static inline void General_Velocity_Data_Handle()
 			ext_sens.gen_vel.st_data.hca_velocity_cmps[1] = 0x8000;
 		}
 	}
+	// 想将 T265 速度数据替换掉光流数据，上位机上看速度数值方向已经正常，但实际测试飞机转过角度后就定不住点了
 //	if(t265_update_cnt != raspi.t265_update_cnt)
 //	{
 //		t265_update_cnt = raspi.t265_update_cnt;

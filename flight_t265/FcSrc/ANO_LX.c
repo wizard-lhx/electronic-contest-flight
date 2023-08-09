@@ -306,6 +306,7 @@ void ANO_LX_Task()
 	if(my_cnt >= 1000)
 	{
 		my_cnt = 0;
-		Send_Data_To_ANO_DT(7);
+		if(rc_in.rc_ch.st_data.ch_[ch_7_aux3] > 800 && rc_in.rc_ch.st_data.ch_[ch_7_aux3] < 1200)
+			Send_Data_To_ANO_DT(7);
 	}
 }
