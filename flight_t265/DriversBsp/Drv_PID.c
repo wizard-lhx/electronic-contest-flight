@@ -29,7 +29,7 @@ float PID_Cal(pid_t *pid, float set, float ref)
 	pid->last_error = pid->error;
 	
 	// »ý·Ö·ÖÀë
-	if(pid->error < 20.0f || pid->error > -20.0f)
+	if(pid->error < 20.0f && pid->error > -20.0f)
 	{
 		pid->iout += pid->ki * pid->error;
 	}
